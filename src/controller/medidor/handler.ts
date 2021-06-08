@@ -3,13 +3,16 @@ import { Medidor } from "../../model/medidorModel";
 //Metodo para Obtener todos los medidores
 export async function getMedidor() {
   try {
-    const eventGetMedidor = await Medidor.findAll();
-    console.log(eventGetMedidor);
+    const eventGetMedidor = await Medidor.findAndCountAll({
+      limit:10,
+      offset: 0
+    });
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "Datos encontrados",
-        data: eventGetMedidor,
+        DataInTable: eventGetMedidor.count,
+        data: eventGetMedidor.rows,
       }),
     };
   } catch (e) {
