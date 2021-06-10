@@ -83,4 +83,16 @@ functions:
       - http:
           path: upload
           method: post
+  newAddress: 
+    handler: src/controller/address/handler.newAddress
+    events: 
+      - http:
+          path: address
+          method: post
+  getAddress:
+    handler: src/controller/address/handler.getAddress
+    events:
+      - http:
+          path: address
+          method: get
 

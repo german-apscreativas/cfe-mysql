@@ -20,7 +20,7 @@ export const parser = (event, fileZise) =>
       },
     });
 
-    const result = {
+    const result:any = {
       files: [],
     };
 

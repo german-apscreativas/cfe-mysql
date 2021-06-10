@@ -5,7 +5,7 @@ const MAX_SIZE = 4000000;
 
 export async function uploadFile(event) {
   try {
-    const formData = await parser(event, MAX_SIZE);
+    const formData:any = await parser(event, MAX_SIZE);
     const file = formData.files[0];
     const validationType = mimeValid(file.contentType);
     const originalKey = `${uuidv4()}_original_${file.filename}`;

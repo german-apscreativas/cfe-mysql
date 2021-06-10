@@ -1,11 +1,16 @@
 import { Medidor } from "../../model/medidorModel";
+import { Address } from '../../model/addressModel';
 
 //Metodo para Obtener todos los medidores
 export async function getMedidor() {
   try {
     const eventGetMedidor = await Medidor.findAndCountAll({
-      limit:10,
-      offset: 0
+      limit: 10,
+      offset: 0,
+      include: [{
+        model: Address,
+        as: 'address'
+      }]
     });
     return {
       statusCode: 200,
@@ -32,7 +37,15 @@ export async function getMedidor() {
 export async function getMedidorById(event) {
   try {
     let { ID } = event.pathParameters;
-    let eventSearchId = await Medidor.findByPk(ID);
+    let eventSearchId = await Medidor.findOne({ 
+      where: { 
+        id: ID 
+      }, 
+      include: [{ 
+        model: Address,
+        as: 'address'
+        }] 
+      });
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -56,10 +69,11 @@ export async function getMedidorById(event) {
 //Crear nuevo medidor
 export async function newMedidor(event) {
   try {
-    const { numero_medidor, watts } = JSON.parse(event.body);
+    const { numero_medidor, watts, addressId } = JSON.parse(event.body);
     const eventSaveMedidor = await Medidor.create({
       numero_medidor,
       watts,
+      addressId,
     });
     return {
       statusCode: 200,
